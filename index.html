@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas</title>
+</head>
+<body>
+  <canvas id="canvas" width="200" height="200"></canvas>
+</body>
+</html>
+
+<script>
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+
+  // drow (triangle)
+  ctx.beginPath();
+  ctx.moveTo(50, 50);
+  ctx.lineTo(100, 100);
+  ctx.lineTo(150, 50);
+  ctx.lineTo(50, 50);
+  ctx.fillStyle = 'gray'
+  ctx.fill();
+
+  // rectangle
+  ctx.fillRect(75, 100, 50, 50);
+  ctx.clearRect(87, 110, 25, 25);
+
+  // circle
+  ctx.moveTo(175, 100);
+  ctx.arc(100, 100, 75, 0, 7)
+  ctx.stroke()
+
+  //lines
+  ctx.strokeStyle = 'rgba(105, 105, 105, 0.3)'
+  for (var i = 1; i <= 20; i++) {
+    ctx.moveTo(2, 10*i);
+    ctx.lineTo(198, 10*i);
+  }
+  ctx.stroke();
+</script>
+
+
+<style>
+  body {background:dimgray;}
+  #canvas {
+    border: solid 1px;
+    background: lightgray;
+  }
+</style>
