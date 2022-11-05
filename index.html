@@ -7,46 +7,67 @@
   <title>Canvas</title>
 </head>
 <body>
-  <canvas id="canvas" width="200" height="200"></canvas>
+  <button id="btn" onclick="addImage()">Drop icon</button>
+  <canvas id="canvas"></canvas>
 </body>
 </html>
 
-<script>
-  var canvas = document.getElementById('canvas');
-  var ctx = canvas.getContext('2d');
-
-  // drow (triangle)
-  ctx.beginPath();
-  ctx.moveTo(50, 50);
-  ctx.lineTo(100, 100);
-  ctx.lineTo(150, 50);
-  ctx.lineTo(50, 50);
-  ctx.fillStyle = 'gray'
-  ctx.fill();
-
-  // rectangle
-  ctx.fillRect(75, 100, 50, 50);
-  ctx.clearRect(87, 110, 25, 25);
-
-  // circle
-  ctx.moveTo(175, 100);
-  ctx.arc(100, 100, 75, 0, 7)
-  ctx.stroke()
-
-  //lines
-  ctx.strokeStyle = 'rgba(105, 105, 105, 0.3)'
-  for (var i = 1; i <= 20; i++) {
-    ctx.moveTo(2, 10*i);
-    ctx.lineTo(198, 10*i);
-  }
-  ctx.stroke();
-</script>
-
-
 <style>
-  body {background:dimgray;}
-  #canvas {
-    border: solid 1px;
-    background: lightgray;
+  button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 1em;
+    transform: translate(-50%, -50%);
+  }
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #171515;
   }
 </style>
+
+<script>
+  let images = [];
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");  
+  canvas.width = document.documentElement.clientWidth;
+  canvas.height = document.documentElement.clientHeight;
+
+
+  function addImage() {
+    let img = new Image()
+    img.moveX = getRandom(0, canvas.width)
+    img.moveY = -100
+    img.src = `${getRandom(1 , 5)}.png`
+    img.onload = function() {
+      images.push(img)
+    };
+  }
+
+  function moveImg() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // чистим холст
+    ctx.beginPath();
+
+    for (let i = 0; i < images.length; i++) {
+      let image = images[i]
+      ctx.drawImage(image, image.moveX, image.moveY); // рисуем изображение в указанном месте
+      image.moveY += 1;
+
+      if(image.moveY > canvas.height) {
+        images.splice(i, 1)
+      }
+    }
+    setTimeout("moveImg()", 20);
+  }
+
+  function getRandom(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+  }
+  window.onload = function() {
+    setTimeout("moveImg()", 20);
+  }
+
+</script>
