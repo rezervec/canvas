@@ -13,7 +13,7 @@
 </html>
 
 <style>
-  button {
+  #btn {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -39,7 +39,7 @@
     let img = new Image()
     img.moveX = getRandom(0, canvas.width)
     img.moveY = -100
-    img.src = `${getRandom(1 , 5)}.png`
+    img.src = `images/${getRandom(1 , 5)}.png`
     img.onload = function() {
       images.push(img)
     };
