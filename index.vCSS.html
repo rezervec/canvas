@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS version</title>
+</head>
+<body>
+  <button onclick="addImage()">Drop icon</button>
+  <div></div>
+</body>
+</html>
+
+<style>
+  button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1em;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+  div {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  body { margin: 0;}
+  img {
+    -moz-user-select: none;
+    -o-user-select:none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 0;
+    outline: none;
+
+    cursor: pointer;
+    max-width: 100px;
+    max-height: 100px;
+    position: absolute;
+    transition: top 10s ease-out;
+  }
+</style>
+
+<script>
+  const div = document.querySelector('div');
+  const pageHeight = div.getBoundingClientRect().height;
+  const pageWidth = div.getBoundingClientRect().width;
+  let images;
+
+  function addImage() {
+    div.appendChild(document.createElement("img"));
+    images = document.querySelectorAll('img')
+    images[images.length-1].src = `images/${getRandom(1, 5)}.png`
+    images[images.length-1].style.top = '-100px'
+    images[images.length-1].style.left = getRandom(-30, pageWidth -30) + 'px'
+    // images[images.length-1].style.transform = `rotate(${getRandom(0, 360)}deg)`
+    setTimeout(`moveImage(${images.length-1})`, 10)
+  }
+
+  function moveImage(index) {
+    images[index].style.top = pageHeight + 'px'
+    // images[index].style.transform = `rotate(0deg)`
+    setTimeout('delImage()', 10000)
+    
+    // добавим изменение цвета при клике
+    // let f = document.querySelectorAll('img')
+    // for (let i = 0; i < f.length; i++) {
+    //   f[i].addEventListener('mousedown', () => {
+    //     f[i].style.filter = 'hue-rotate(220deg)'
+    //     f[i].style.transform = 'rotate(1000deg)'
+    //   })
+    // }
+  }
+
+  function delImage() {
+    images[0].parentNode.removeChild(images[0])
+    images = document.querySelectorAll('img')
+  }
+
+
+  function getRandom(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+  }
+
+</script>
